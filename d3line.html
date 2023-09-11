@@ -44,15 +44,22 @@
             { date: "11/13/2018", value: 53 },
             { date: "11/14/2018", value: 59 },
             { date: "11/15/2018", value: 61 },
-            { date: "11/16/2018", value: 62 }];
+            { date: "11/16/2018", value: 62 },
+            { date: "12/10/2018", value: 71 },
+            { date: "12/11/2018", value: 74 },
+            { date: "12/12/2018", value: 80 },
+            { date: "12/13/2018", value: 93 },
+            { date: "12/14/2018", value: 99 },
+            { date: "12/15/2018", value: 101 },
+            { date: "12/16/2018", value: 112 }];
     console.log("before data ",data)
 
-    let width=1024;
-    let height=768;
+    let width=800;
+    let height=400;
     let margin=50;
     let dataGroup=d3.select("body")
         .append("svg")
-        .attr("width",width+margin)
+        .attr("width",width+margin+30)
         .attr("height",height+2*margin)
         .append("g")
         .attr("transform",`translate(${margin},${margin})`)
@@ -67,42 +74,33 @@
     
     data.forEach((d)=>{
         d.date=parseTime(d.date);
-        //console.log("d.date ",d.date)
     });
     console.log("after data ",data)
 
-
-    let x = d3.scaleTime()
-        .domain(d3.extent(data,(d)=>d.date))
-        .range([0,width]);
-
-    let y = d3.scaleLinear()
-        .domain(d3.extent(data,(d)=>d.value))
-        .range([height,0]);
-
-    
     dataGroup.append("path")
         .data([data])
         .attr("fill","none")
         .attr("stroke","red")
         .attr("d",line);
 
+    let x = d3.scaleTime()
+        .domain(d3.extent(data,(d)=>d.date))
+        .range([0,width]);
+    let xAxis = d3.axisBottom(x)
+        .tickFormat(d3.timeFormat("%Y-%m-%d"));
     let xAxisGroup = dataGroup
         .append("g")
         .attr("class","xAxisGroup")
         .attr("transform",`translate(0,${height})`);
-
-    let xAxis = d3.axisBottom(x)
-        .tickFormat(d3.timeFormat("%Y-%m-%d"));
-    
     xAxis(xAxisGroup);
 
+    let y = d3.scaleLinear()
+        .domain(d3.extent(data,(d)=>d.value))
+        .range([height,0]);
+    let yAxis = d3.axisLeft(y);
     let yAxisGroup = dataGroup
         .append("g")
         .attr("class","yAxisGroup");
-
-    let yAxis = d3.axisLeft(y);
-
     yAxis(yAxisGroup);
 
 </script>
