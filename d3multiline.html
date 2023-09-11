@@ -22,7 +22,7 @@
 </body>
 <script type="text/javascript">
 
-    let data = [{ date: "10/25/2018", value1: 1, value2: 0 },
+    let data = [{ date: "10/25/2018", value1: 10, value2: 5 },
                 { date: "10/26/2018", value1: 3, value2: 0 },
                 { date: "10/27/2018", value1: 0, value2: 25 },
                 { date: "10/28/2018", value1: 0, value2: 62 },
@@ -64,7 +64,7 @@
     
     data.forEach((d)=>{
         d.date=parseTime(d.date);
-        delete d.value2;
+        //delete d.value2;
     });
     console.log("after data ",data)
 
@@ -91,7 +91,7 @@
         let y = d3.scalePow()
         .domain(d3.extent(data,(d)=>d[propertyName]))
         .range([height,0])
-        .exponent(4);
+        .exponent(1);
         let yAxis = d3.axisLeft(y);
         let yAxisGroup = dataGroup
             .append("g")
@@ -111,9 +111,24 @@
     };
 
     
+    let colors = d3.schemeCategory10;
 
-    plotVariable("value1","red");
-    plotVariable("value2","blue");
+
+    let propertyValues=[]
+    for( let tx in data[0] ){
+        console.log("tx ",tx)
+        if(tx == "date"){
+            continue;
+        }
+        else{
+            propertyValues.push(tx);
+        }
+    }
+    propertyValues.forEach((t,index)=>{
+        console.log("t ",t," index ",index)
+        plotVariable(t,colors[index]);    
+    })
+    
 
 </script>
 </html>
