@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3js_1</title>
+    <style>
+        body{
+            margin:0;
+        }
+        svg{
+            width: 1000px;
+            height: 1000px;
+            border: 3px solid green;
+            /* background-image: linear-gradient(to right, black,white); */
+            transform-origin: 0 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+    
+</body>
+<script type="text/javascript">
+    let svg= d3.select("body")
+        .append("svg")
+        .attr("transform","scale(3)")
+        ;
+    
+    let initialX=15,initialY=15;
+    let deltaX=25,deltaY=25;
+
+    let currentX=initialX,currentY=initialY;
+    
+    let drawCircle=(gCircle,radius)=>{
+        gCircle.append("circle")
+        .attr("fill","red")
+        .attr("r",radius)
+        .attr("cx",currentX)
+        .attr("cy",currentY);
+
+        gCircle.append("text")
+        .text(radius)
+        .attr("x",currentX)
+        .attr("y",currentY)
+        .attr("font-size","12pt")
+        .attr("fill","black");
+
+        currentX +=deltaX;
+    }
+
+    let drawRectangle=(gRect,radius)=>{
+        gRect.append("rect")
+        .attr("fill","red")
+        .attr("width",5)
+        .attr("height",radius)
+        .attr("x",currentX)
+        .attr("y",currentY);
+
+        gRect.append("text")
+        .text(radius)
+        .attr("x",currentX)
+        .attr("y",currentY)
+        .attr("font-size","12pt")
+        .attr("fill","black");
+    
+        currentX +=deltaX;
+    }
+
+    let drawProportionalCircle=(gPropCircle,radius)=>{
+        gPropCircle.append("circle")
+        .attr("fill","red")
+        .attr("r",Math.sqrt(radius))
+        .attr("cx",currentX)
+        .attr("cy",currentY);
+
+        gPropCircle.append("text")
+        .text(radius)
+        .attr("x",currentX)
+        .attr("y",currentY)
+        .attr("font-size","12pt")
+        .attr("fill","black");
+
+        currentX +=deltaX;
+    }
+    let values = [0,2,8,1,2];
+    let gCircle = svg.append("g");
+    gCircle.attr("class","circleGroup");
+    values.forEach((dataItem)=>{
+        drawCircle(gCircle,dataItem);     
+    });
+    
+    currentX=initialX;
+    currentY+=deltaY;
+
+    let gRect = svg.append("g");
+    gRect.attr("class","rectangleGroup");
+    values.forEach((dataItem)=>{
+        drawRectangle(gRect,dataItem);     
+    });
+    
+    currentX=initialX;
+    currentY+=deltaY;
+
+    let gPropCircle = svg.append("g");
+    gPropCircle.attr("class","propCircleGroup");
+    values.forEach((dataItem)=>{
+        drawProportionalCircle(gRect,dataItem);     
+    });
+
+</script>
+</html>
